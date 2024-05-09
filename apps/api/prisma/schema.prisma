@@ -19,3 +19,115 @@ model Sample {
 
   @@map("samples") // if you want to use snake_case format
 }
+
+enum Role {
+  CUSTOMER
+  ORGANIZER
+}
+
+model User {
+  id                 Int                @id @default(autoincrement())
+  username           String
+  email              String             @unique
+  password           String
+  role               Role
+  refferal           String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  events             Event[]
+  event_participants EventParticipant[]
+  points             Point[]
+  reviews            Review[]
+  refferal_histories RefferalHistory[]
+  Discount           Discount[]
+
+  @@map("users")
+}
+
+model Event {
+  id                 Int                @id @default(autoincrement())
+  title              String
+  price              Decimal            @db.Decimal(10, 2)
+  location           String
+  description        String
+  limit              Int
+  booked             Boolean
+  is_free            Boolean
+  start_event        DateTime
+  end_event          DateTime
+  category           String
+  userId             Int
+  user               User               @relation(fields: [userId], references: [id])
+  image              String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  event_participants EventParticipant[]
+  reviews            Review[]
+  Discount           Discount[]
+
+  @@map("events")
+}
+
+model EventParticipant {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("event_participants")
+}
+
+model Point {
+  id        Int       @id @default(autoincrement())
+  total     Int
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  expiredAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("points")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  review    String
+  rating    Int
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model RefferalHistory {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  discount_rate Decimal  @db.Decimal(5, 2)
+  expiredAt     DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("refferal_history")
+}
+
+model Discount {
+  id             Int      @id @default(autoincrement())
+  total_discount Decimal  @db.Decimal(8, 2)
+  eventId        Int
+  event          Event    @relation(fields: [eventId], references: [id])
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id])
+  expiredAt      DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("discounts")
+}
