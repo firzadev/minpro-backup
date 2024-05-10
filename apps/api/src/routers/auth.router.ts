@@ -14,6 +14,10 @@ export class AuthRouter {
   private initializeRoutes(): void {
     this.router.post('/register', this.authController.registerController);
     this.router.get('/user-point', this.authController.getUserPointController);
+    this.router.get(
+      '/user-discount',
+      this.authController.getUserDiscountController,
+    );
   }
 
   getRouter(): Router {

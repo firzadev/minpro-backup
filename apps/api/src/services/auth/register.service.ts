@@ -66,6 +66,15 @@ export const registerService = async (body: IRegister) => {
             },
           });
         }
+
+        const discountRate = 10;
+        await tx.refferalHistory.create({
+          data: {
+            userId: user.id,
+            discount_rate: discountRate / 100,
+            expiredAt: pointExpiredDate,
+          },
+        });
       }
 
       await tx.point.create({
