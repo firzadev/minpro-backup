@@ -51,7 +51,7 @@ model Event {
   location           String
   description        String
   limit              Int
-  booked             Boolean
+  booked             Int
   is_free            Boolean
   start_event        DateTime
   end_event          DateTime
