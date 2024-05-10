@@ -3,9 +3,9 @@ import { Menu, Search } from 'lucide-react';
 export const Header = () => {
   return (
     <div className="navbar bg-[#1F1F95] w-full h-[80px]">
-      <div className="md:w-[95%] w-full md:mx-auto md:flex md:gap-5">
+      <div className="md:w-[85%] w-full md:mx-auto md:flex md:gap-5">
         <div className="navbar-start">
-          <h1 className="text-white md:mx-1 font-bold text-xl">EVENTIFY.</h1>
+          <h1 className="text-white  font-bold text-xl">EVENTIFY.</h1>
         </div>
         <div className="navbar-start flex gap-10 text-white justify-center">
           <h3 className=" hidden md:block">Explore</h3>
